@@ -15,6 +15,7 @@ import java.util.concurrent.CountDownLatch
  * @return the return value of the action.
  */
 @kotlin.internal.InlineOnly
+// EXACTLY_ONCE
 public inline fun <T> Lock.withLock(action: () -> T): T {
     lock()
     try {
@@ -29,6 +30,7 @@ public inline fun <T> Lock.withLock(action: () -> T): T {
  * @return the return value of the action.
  */
 @kotlin.internal.InlineOnly
+// EXACTLY_ONCE
 public inline fun <T> ReentrantReadWriteLock.read(action: () -> T): T {
     val rl = readLock()
     rl.lock()
@@ -53,6 +55,7 @@ public inline fun <T> ReentrantReadWriteLock.read(action: () -> T): T {
  * @return the return value of the action.
  */
 @kotlin.internal.InlineOnly
+// EXACTLY_ONCE
 public inline fun <T> ReentrantReadWriteLock.write(action: () -> T): T {
     val rl = readLock()
 

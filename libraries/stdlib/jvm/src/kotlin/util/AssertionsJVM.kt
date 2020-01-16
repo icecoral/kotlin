@@ -28,6 +28,7 @@ public inline fun assert(value: Boolean) {
  * and runtime assertions have been enabled on the JVM using the *-ea* JVM option.
  */
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun assert(value: Boolean, lazyMessage: () -> Any) {
     if (_Assertions.ENABLED) {
         if (!value) {

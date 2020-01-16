@@ -290,6 +290,7 @@ public inline fun String?.orEmpty(): String = this ?: ""
  */
 @SinceKotlin("1.3")
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <C, R> C.ifEmpty(defaultValue: () -> R): R where C : CharSequence, C : R =
     if (isEmpty()) defaultValue() else this
 
@@ -301,6 +302,7 @@ public inline fun <C, R> C.ifEmpty(defaultValue: () -> R): R where C : CharSeque
  */
 @SinceKotlin("1.3")
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <C, R> C.ifBlank(defaultValue: () -> R): R where C : CharSequence, C : R =
     if (isBlank()) defaultValue() else this
 

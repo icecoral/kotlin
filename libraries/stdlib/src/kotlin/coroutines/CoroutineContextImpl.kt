@@ -127,6 +127,7 @@ internal class CombinedContext(
         }
     }
 
+    // AT_LEAST_ONCE if contracts were allowed in open funs
     public override fun <R> fold(initial: R, operation: (R, Element) -> R): R =
         operation(left.fold(initial, operation), element)
 

@@ -104,6 +104,7 @@ public inline class Duration internal constructor(internal val value: Double) : 
      *   If the value doesn't fit in [Int] range, i.e. it's greater than [Int.MAX_VALUE] or less than [Int.MIN_VALUE],
      *   it is coerced into that range.
      */
+    // EXACTLY_ONCE
     public inline fun <T> toComponents(action: (days: Int, hours: Int, minutes: Int, seconds: Int, nanoseconds: Int) -> T): T =
         action(inDays.toInt(), hoursComponent, minutesComponent, secondsComponent, nanosecondsComponent)
 

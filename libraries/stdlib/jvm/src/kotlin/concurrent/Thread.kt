@@ -55,6 +55,7 @@ public fun thread(
  * is stored for the current thread and then returned.
  */
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <T : Any> ThreadLocal<T>.getOrSet(default: () -> T): T {
     return get() ?: default().also(this::set)
 }

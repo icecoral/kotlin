@@ -89,6 +89,7 @@ public inline fun check(value: Boolean): Unit {
  * @sample samples.misc.Preconditions.failCheckWithLazyMessage
  */
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun check(value: Boolean, lazyMessage: () -> Any): Unit {
     contract {
         returns() implies value

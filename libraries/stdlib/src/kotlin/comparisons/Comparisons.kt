@@ -38,6 +38,7 @@ private fun <T> compareValuesByImpl(a: T, b: T, selectors: Array<out (T) -> Comp
  * @sample samples.comparisons.Comparisons.compareValuesByWithSingleSelector
  */
 @kotlin.internal.InlineOnly
+// AT_LEAST_ONCE
 public inline fun <T> compareValuesBy(a: T, b: T, selector: (T) -> Comparable<*>?): Int {
     return compareValues(selector(a), selector(b))
 }
@@ -50,6 +51,7 @@ public inline fun <T> compareValuesBy(a: T, b: T, selector: (T) -> Comparable<*>
  * @sample samples.comparisons.Comparisons.compareValuesByWithComparator
  */
 @kotlin.internal.InlineOnly
+// AT_LEAST_ONCE
 public inline fun <T, K> compareValuesBy(a: T, b: T, comparator: Comparator<in K>, selector: (T) -> K): Int {
     return comparator.compare(selector(a), selector(b))
 }

@@ -16,6 +16,7 @@ import kotlinx.dom.createElement as newCreateElement
  *
  * The element is initialized with the specified [init] function.
  */
+// EXACTLY_ONCE
 @LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is moved to another package, use 'kotlinx.dom.createElement' instead.",
@@ -28,6 +29,7 @@ public inline fun Document.createElement(name: String, noinline init: Element.()
  *
  * The element is initialized with the specified [init] function.
  */
+// EXACTLY_ONCE
 @LowPriorityInOverloadResolution
 @Deprecated(
     message = "This API is moved to another package, use 'kotlinx.dom.appendElement' instead.",

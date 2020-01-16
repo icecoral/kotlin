@@ -63,6 +63,7 @@ public inline fun Array<*>?.isNullOrEmpty(): Boolean {
 @SinceKotlin("1.3")
 @kotlin.internal.InlineOnly
 @Suppress("UPPER_BOUND_CANNOT_BE_ARRAY")
+// AT_MOST_ONCE
 public inline fun <C, R> C.ifEmpty(defaultValue: () -> R): R where C : Array<*>, C : R =
     if (isEmpty()) defaultValue() else this
 

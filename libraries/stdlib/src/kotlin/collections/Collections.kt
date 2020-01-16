@@ -263,6 +263,7 @@ public inline fun <T> List<T>?.orEmpty(): List<T> = this ?: emptyList()
  */
 @SinceKotlin("1.3")
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <C, R> C.ifEmpty(defaultValue: () -> R): R where C : Collection<*>, C : R =
     if (isEmpty()) defaultValue() else this
 

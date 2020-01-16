@@ -220,6 +220,7 @@ public inline fun <K, V> Map<K, V>?.orEmpty(): Map<K, V> = this ?: emptyMap()
  */
 @SinceKotlin("1.3")
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <M, R> M.ifEmpty(defaultValue: () -> R): R where M : Map<*, *>, M : R =
     if (isEmpty()) defaultValue() else this
 
@@ -318,6 +319,7 @@ public inline fun <K, V> Map.Entry<K, V>.toPair(): Pair<K, V> = Pair(key, value)
  * @sample samples.collections.Maps.Usage.getOrElse
  */
 @kotlin.internal.InlineOnly
+// AT_MOST_ONCE
 public inline fun <K, V> Map<K, V>.getOrElse(key: K, defaultValue: () -> V): V = get(key) ?: defaultValue()
 
 
@@ -351,6 +353,7 @@ public fun <K, V> Map<K, V>.getValue(key: K): V = getOrImplicitDefault(key)
  *
  * @sample samples.collections.Maps.Usage.getOrPut
  */
+// AT_MOST_ONCE
 public inline fun <K, V> MutableMap<K, V>.getOrPut(key: K, defaultValue: () -> V): V {
     val value = get(key)
     return if (value == null) {
