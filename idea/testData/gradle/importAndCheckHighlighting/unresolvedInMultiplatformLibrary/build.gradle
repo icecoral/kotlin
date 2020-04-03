@@ -3,6 +3,7 @@ plugins {
 }
 repositories {
     mavenCentral()
+    mavenLocal()
 }
 group 'com.example'
 version '0.0.1'

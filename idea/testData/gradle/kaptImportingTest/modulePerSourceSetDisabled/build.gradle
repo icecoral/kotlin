@@ -1,6 +1,7 @@
 buildscript {
     ext.kotlin_version = '{{kotlin_plugin_version}}'
     repositories {
+        mavenLocal()
         google()
         jcenter()
 

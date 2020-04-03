@@ -7,16 +7,19 @@ package org.jetbrains.kotlin.test
 
 import junit.framework.TestCase
 import org.jetbrains.kotlin.test.mutes.*
+import org.junit.After
 import org.junit.internal.runners.statements.InvokeMethod
 import org.junit.runner.Runner
 import org.junit.runner.notification.Failure
 import org.junit.runner.notification.RunListener
 import org.junit.runner.notification.RunNotifier
 import org.junit.runners.model.FrameworkMethod
+import org.junit.runners.model.MultipleFailureException
 import org.junit.runners.model.Statement
 import org.junit.runners.parameterized.BlockJUnit4ClassRunnerWithParameters
 import org.junit.runners.parameterized.ParametersRunnerFactory
 import org.junit.runners.parameterized.TestWithParameters
+import java.util.*
 
 private val SKIP_MUTED_TESTS = java.lang.Boolean.getBoolean("org.jetbrains.kotlin.skip.muted.tests")
 
@@ -93,6 +96,40 @@ class RunnerFactoryWithMuteInDatabase : ParametersRunnerFactory {
                         super.evaluate()
                     }
                 }
+            }
+
+            override fun withAfters(method: FrameworkMethod, target: Any?, statement: Statement): Statement {
+                val afters = testClass.getAnnotatedMethods(After::class.java)
+
+                if (afters.isEmpty())
+                    return statement
+                else
+                    return object : Statement() {
+                        override fun evaluate() {
+                            val errors: MutableList<Throwable> = ArrayList()
+                            try {
+                                statement.evaluate()
+                            } catch (e: Throwable) {
+                                errors.add(e)
+                            } finally {
+                                for (each in afters) {
+                                    try {
+                                        each.invokeExplosively(target)
+                                    } catch (e: Throwable) {
+                                        val mutedTest =
+                                            getMutedTest(method.declaringClass, parametrizedMethodKey(method, name))
+                                                ?: getMutedTest(method.declaringClass, method.method.name)
+                                        if (mutedTest != null && !mutedTest.hasFailFile) {
+                                            println("MUTED TEST THROWS EXCEPTION: ${e.message}")
+                                            continue
+                                        }
+                                        errors.add(e)
+                                    }
+                                }
+                            }
+                            MultipleFailureException.assertEmpty(errors)
+                        }
+                    }
             }
         }
     }
