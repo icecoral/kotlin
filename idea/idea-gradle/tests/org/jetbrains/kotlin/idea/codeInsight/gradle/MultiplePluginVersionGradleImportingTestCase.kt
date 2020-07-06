@@ -53,10 +53,11 @@ abstract class MultiplePluginVersionGradleImportingTestCase : GradleImportingTes
         )
 
         private fun readPluginVersion() =
-            File("libraries/tools/kotlin-gradle-plugin/build/libs").listFiles()?.map { it.name }?.firstOrNull { it.contains("-original.jar") }?.replace(
-                "kotlin-gradle-plugin-",
-                ""
-            )?.replace("-original.jar", "") ?: "1.4.255-SNAPSHOT"
+            File("libraries/tools/kotlin-gradle-plugin/build/libs").listFiles()?.map { it.name }
+                ?.firstOrNull { it.contains("-original.jar") }?.replace(
+                    "kotlin-gradle-plugin-",
+                    ""
+                )?.replace("-original.jar", "") ?: "1.4.255-SNAPSHOT"
 
         @JvmStatic
         @Parameterized.Parameters(name = "{index}: Gradle-{0}, KotlinGradlePlugin-{1}")
@@ -73,10 +74,11 @@ abstract class MultiplePluginVersionGradleImportingTestCase : GradleImportingTes
     }
 
     fun repositories(useKts: Boolean): String {
-        val customRepositories = arrayOf("https://dl.bintray.com/kotlin/kotlin-dev", "http://dl.bintray.com/kotlin/kotlin-eap")
+        val customRepositories = arrayOf(
+            "https://dl.bintray.com/kotlin/kotlin-dev",
+            "http://dl.bintray.com/kotlin/kotlin-eap",
+        )
         val customMavenRepositories = customRepositories.map { if (useKts) "maven(\"$it\")" else "maven { url '$it' } " }.joinToString("\n")
-        val baseFolder = File(".").absolutePath.replace("\\", "/")
-        val quote = if (useKts) '"' else '\''
         return """
             google()
             jcenter()
@@ -91,6 +93,28 @@ abstract class MultiplePluginVersionGradleImportingTestCase : GradleImportingTes
 
         unitedProperties["kotlin_plugin_repositories"] = repositories(false)
         unitedProperties["kts_kotlin_plugin_repositories"] = repositories(true)
+
+        unitedProperties["extraPluginDependencies"] = if (gradleKotlinPluginVersionType == LATEST_SUPPORTED_VERSION)
+            """
+                classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$gradleKotlinPluginVersion")
+                classpath("org.jetbrains.kotlin:kotlin-compiler-embeddable:$gradleKotlinPluginVersion")
+                classpath("org.jetbrains.kotlin:kotlin-gradle-plugin-api:$gradleKotlinPluginVersion")
+                classpath("org.jetbrains.kotlin:kotlin-compiler-runner:$gradleKotlinPluginVersion")
+                classpath("org.jetbrains.kotlin:kotlin-compiler-client-embeddable:$gradleKotlinPluginVersion")
+                classpath("org.jetbrains.kotlin:kotlin-gradle-plugin-model:$gradleKotlinPluginVersion")
+            """.trimIndent()
+        else
+            ""
+        unitedProperties["kts_resolution_strategy"] = if (gradleKotlinPluginVersionType == LATEST_SUPPORTED_VERSION)
+            """resolutionStrategy {
+                eachPlugin {
+                    if(requested.id.id == "org.jetbrains.kotlin.multiplatform") {
+                        useModule("org.jetbrains.kotlin:kotlin-gradle-plugin:$gradleKotlinPluginVersion")
+                    }
+                }
+            }""".trimIndent()
+        else ""
+
         return super.configureByFiles(unitedProperties)
     }
 }

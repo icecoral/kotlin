@@ -1,3 +1,10 @@
+pluginManagement {
+    repositories {
+        mavenCentral()
+        mavenLocal()
+    }
+}
+
 rootProject.name = 'mppLibrary'
 
 enableFeaturePreview('GRADLE_METADATA')
