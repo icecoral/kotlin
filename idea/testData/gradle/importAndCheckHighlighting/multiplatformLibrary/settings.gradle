@@ -1,7 +1,8 @@
 pluginManagement {
+    {{kts_resolution_strategy}}
     repositories {
         mavenCentral()
-        mavenLocal()
+                {{kotlin_plugin_repositories}}
     }
 }
 

@@ -105,7 +105,7 @@ abstract class MultiplePluginVersionGradleImportingTestCase : GradleImportingTes
             """.trimIndent()
         else
             ""
-        unitedProperties["kts_resolution_strategy"] = if (gradleKotlinPluginVersionType == LATEST_SUPPORTED_VERSION)
+        unitedProperties["kts_resolution_strategy"] =
             """resolutionStrategy {
                 eachPlugin {
                     if(requested.id.id == "org.jetbrains.kotlin.multiplatform") {
@@ -113,7 +113,6 @@ abstract class MultiplePluginVersionGradleImportingTestCase : GradleImportingTes
                     }
                 }
             }""".trimIndent()
-        else ""
 
         return super.configureByFiles(unitedProperties)
     }

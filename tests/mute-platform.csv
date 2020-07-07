@@ -3,7 +3,7 @@ org.jetbrains.kotlin.findUsages.KotlinFindUsagesWithLibraryTestGenerated.KotlinL
 org.jetbrains.kotlin.findUsages.KotlinFindUsagesWithLibraryTestGenerated.KotlinLibrary.testLibraryNestedClassUsages, KT-34542, FAIL,
 org.jetbrains.kotlin.findUsages.KotlinFindUsagesWithLibraryTestGenerated.KotlinLibrary.testLibraryObjectUsages, KT-34542, FAIL,
 "org.jetbrains.kotlin.gradle.HierarchicalMultiplatformProjectImportingTest.testJvmWithJavaOnHMPP[1: Gradle-4.9, KotlinGradlePlugin-latest stable]", No module dependency found,,
-"org.jetbrains.kotlin.gradle.HierarchicalMultiplatformProjectImportingTest.testJvmWithJavaOnHMPP[3: Gradle-5.6.4, KotlinGradlePlugin-latest stable]", No module dependency found,,
+"org.jetbrains.kotlin.gradle.HierarchicalMultiplatformProjectImportingTest.testJvmWithJavaOnHMPP[4: Gradle-5.6.4, KotlinGradlePlugin-latest stable]", No module dependency found,,
 org.jetbrains.kotlin.gradle.MultiplatformProjectImportingTest.simpleAndroidAppWithCommonModule, KT-35225,,
 "org.jetbrains.kotlin.gradle.MultiplatformProjectImportingTest.testDependenciesReachableViaImpl[0: Gradle-4.9, KotlinGradlePlugin-minimal]", Gradle Tests in 201,,
 "org.jetbrains.kotlin.gradle.MultiplatformProjectImportingTest.testDependenciesReachableViaImpl[1: Gradle-4.9, KotlinGradlePlugin-latest stable]", Gradle Tests in 201,,
