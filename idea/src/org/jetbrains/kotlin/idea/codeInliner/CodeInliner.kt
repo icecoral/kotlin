@@ -108,7 +108,7 @@ class CodeInliner<TCallElement : KtElement>(
 
         val lexicalScope = callElement.parent.getResolutionScope(bindingContext)
 
-        if (elementToBeReplaced is KtSafeQualifiedExpression) {
+        if (elementToBeReplaced is KtSafeQualifiedExpression && receiverType?.isMarkedNullable != false) {
             wrapCodeForSafeCall(receiver!!, receiverType, elementToBeReplaced)
         } else if (callElement is KtBinaryExpression && callElement.operationToken == KtTokens.IDENTIFIER) {
             keepInfixFormIfPossible()
@@ -296,23 +296,8 @@ class CodeInliner<TCallElement : KtElement>(
             }
         }
 
-        if (expressionToBeReplaced.isUsedAsExpression(bindingContext)) {
-            val thisReplaced = codeToInline.collectDescendantsOfType<KtExpression> { it[RECEIVER_VALUE_KEY] }
-            codeToInline.introduceValue(receiver, receiverType, thisReplaced, expressionToBeReplaced, safeCall = true)
-        } else {
-            codeToInline.mainExpression = psiFactory.buildExpression {
-                appendFixedText("if (")
-                appendExpression(receiver)
-                appendFixedText("!=null) {")
-                with(codeToInline) {
-                    appendExpressionsFromCodeToInline(postfixForMainExpression = "\n")
-                }
-
-                appendFixedText("}")
-            }
-
-            codeToInline.statementsBefore.clear()
-        }
+        val thisReplaced = codeToInline.collectDescendantsOfType<KtExpression> { it[RECEIVER_VALUE_KEY] }
+        codeToInline.introduceValue(receiver, receiverType, thisReplaced, expressionToBeReplaced, safeCall = true)
     }
 
     private fun keepInfixFormIfPossible() {

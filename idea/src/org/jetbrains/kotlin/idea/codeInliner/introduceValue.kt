@@ -84,6 +84,7 @@ internal fun MutableCodeToInline.introduceValue(
             val explicitType = valueType?.takeIf {
                 variableNeedsExplicitType(value, valueType, expressionToBeReplaced, resolutionScope, bindingContext)
             }
+
             if (explicitType != null) {
                 addPostInsertionAction(declaration) { it.setType(explicitType) }
             }
@@ -99,14 +100,26 @@ internal fun MutableCodeToInline.introduceValue(
 
         mainExpression = psiFactory.buildExpression {
             appendExpression(value)
-            appendFixedText("?.let{")
+            if (valueType?.isMarkedNullable != false) {
+                appendFixedText("?")
+            }
+
+            appendFixedText(".let {")
 
             if (!useIt) {
                 appendName(name)
                 appendFixedText("->")
             }
 
-            appendExpressionsFromCodeToInline()
+            for (statement in statementsBefore) {
+                appendExpression(statement)
+                appendFixedText("\n")
+            }
+
+            if (mainExpression != null) {
+                appendExpression(mainExpression)
+            }
+
             appendFixedText("}")
         }
 

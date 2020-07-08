@@ -47,18 +47,6 @@ internal class MutableCodeToInline(
         extraComments = extraComments?.merge(commentHolder) ?: commentHolder
     }
 
-    fun BuilderByPattern<KtExpression>.appendExpressionsFromCodeToInline(postfixForMainExpression: String = "") {
-        for (statement in statementsBefore) {
-            appendExpression(statement)
-            appendFixedText("\n")
-        }
-
-        if (mainExpression != null) {
-            appendExpression(mainExpression)
-            appendFixedText(postfixForMainExpression)
-        }
-    }
-
     fun replaceExpression(oldExpression: KtExpression, newExpression: KtExpression): KtExpression {
         assert(oldExpression in this)
 

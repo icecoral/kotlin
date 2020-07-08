@@ -1,12 +1,11 @@
 fun f(s: String?) {
-    if (s != null) {
+    s?.let {
         println(1)
-        s.hashCode() * 1
+        it.hashCode() * 1
     }
-    val substring = s?.substring(1)
-    if (substring != null) {
+    s?.substring(1)?.let {
         println(2)
-        substring.hashCode() * 2
+        it.hashCode() * 2
     }
     val s1 = s?.let {
         println(3)
@@ -15,5 +14,15 @@ fun f(s: String?) {
     val s2 = s?.substring(1)?.let {
         println(4)
         it.hashCode() * 4
+    }
+
+    val s3 = s?.substring(1)
+    s3?.let {
+        println(2)
+        it.hashCode() * 2
+    }
+    s3?.let {
+        println(3)
+        it.hashCode() * 3
     }
 }

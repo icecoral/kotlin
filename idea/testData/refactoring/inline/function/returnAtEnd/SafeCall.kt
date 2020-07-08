@@ -8,4 +8,8 @@ fun f(s: String?) {
     s?.substring(1)?.f(2)
     val s1 = s?.f(3)
     val s2 = s?.substring(1)?.f(4)
+
+    val s3 = s?.substring(1)
+    s3?.f(2)
+    s3?.f(3)
 }
