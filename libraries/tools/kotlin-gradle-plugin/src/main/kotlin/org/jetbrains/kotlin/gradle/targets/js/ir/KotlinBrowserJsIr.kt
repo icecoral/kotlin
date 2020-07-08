@@ -89,12 +89,12 @@ open class KotlinBrowserJsIr @Inject constructor(target: KotlinJsIrTarget) :
                         RUN_TASK_NAME
                     ),
                     listOf(compilation)
-                ) {
+                ) { task ->
                     val entryFileProvider = runCompileSync.map {
                         it.destinationDir
                             .resolve(binary.linkTask.get().outputFile.name)
                     }
-                    it.commonConfigure(
+                    task.commonConfigure(
                         compilation = compilation,
                         mode = mode,
                         entryFileProvider = entryFileProvider,
@@ -102,15 +102,15 @@ open class KotlinBrowserJsIr @Inject constructor(target: KotlinJsIrTarget) :
                         nodeJs = nodeJs
                     )
 
-                    it.bin = "webpack-dev-server/bin/webpack-dev-server.js"
-                    it.description = "start ${mode.name.toLowerCase()} webpack dev server"
+                    task.bin = "webpack-dev-server/bin/webpack-dev-server.js"
+                    task.description = "start ${mode.name.toLowerCase()} webpack dev server"
 
-                    it.devServer = KotlinWebpackConfig.DevServer(
+                    task.devServer = KotlinWebpackConfig.DevServer(
                         open = true,
                         contentBase = listOf(compilation.output.resourcesDir.canonicalPath)
                     )
 
-                    it.outputs.upToDateWhen { false }
+                    task.outputs.upToDateWhen { false }
                 }
 
                 if (mode == KotlinJsBinaryMode.DEVELOPMENT) {
@@ -154,9 +154,9 @@ open class KotlinBrowserJsIr @Inject constructor(target: KotlinJsIrTarget) :
                         WEBPACK_TASK_NAME
                     ),
                     listOf(compilation)
-                ) {
+                ) { task: KotlinWebpack ->
                     val entryFileProvider = binary.linkTask.map { it.outputFile }
-                    it.commonConfigure(
+                    task.commonConfigure(
                         compilation = compilation,
                         mode = mode,
                         entryFileProvider = entryFileProvider,
@@ -164,12 +164,12 @@ open class KotlinBrowserJsIr @Inject constructor(target: KotlinJsIrTarget) :
                         nodeJs = nodeJs
                     )
 
-                    it.dependsOn(
+                    task.dependsOn(
                         distributeResourcesTask
                     )
 
-                    it.description = "build webpack ${mode.name.toLowerCase()} bundle"
-                    it._destinationDirectory = distribution.directory
+                    task.description = "build webpack ${mode.name.toLowerCase()} bundle"
+                    task._destinationDirectory = distribution.directory
                 }
 
                 if (mode == KotlinJsBinaryMode.PRODUCTION) {
@@ -200,12 +200,12 @@ open class KotlinBrowserJsIr @Inject constructor(target: KotlinJsIrTarget) :
 
         return registerSubTargetTask(
             runCompileSyncTaskName
-        ) {
-            it.from(
+        ) { task ->
+            task.from(
                 project.layout.file(binary.linkTask.map { it.destinationDir })
             )
 
-            it.into(
+            task.into(
                 binary.linkTask.map {
                     it.destinationDir.parentFile
                         .resolve(binary.name.decamelize())
